@@ -47,7 +47,7 @@ let comments = fetch(root + '/comments')
             let votedWho = commentContent.split(" ")[0]
             let voteCount
             let usersVoted = []
-            if (users.includes(votedWho) && votedWho !== comments.author.profile.username && !(votes[votedWho] && (votes[votedWho].users).includes(comments.author.profile.username))) {
+            if (users.includes(votedWho) && !(votes[votedWho] && (votes[votedWho].users).includes(comments.author.profile.username))) {
                 if(votes[votedWho]) {
                     voteCount = votes[votedWho].count + 1
                     usersVoted = votes[votedWho].users
