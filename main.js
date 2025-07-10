@@ -80,7 +80,7 @@ function makeBar(voteName, voteCount, usersWhoVoted) {
     label.setAttribute("class", "label")
 
     const percentage = document.createElement("span")
-    percentage.textContent = `${Math.round(voteCount / allVotesCount) * 100}%`
+    percentage.textContent = `${Math.floor((voteCount / allVotesCount) * 100)*100 /100}%`
     percentage.setAttribute("class", "percentage")
 
     const barGroup = document.createElement("div")
