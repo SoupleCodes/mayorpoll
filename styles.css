@@ -1,0 +1,51 @@
+body {
+    font-family: 'Trebuchet MS';
+    width: 600px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top: 5%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #424242
+}
+
+span.label { color: #5b5b5b }
+
+.bar-group, .bar, .fill {
+    height: 14px;
+    position: relative
+}
+
+.bar {
+    width: 0px;
+    -transition: width 1s ease;
+    transition: width 1s ease;
+    -webkit-transition: width 1s ease;
+}
+
+.fill {
+    width: 0px;
+    -transition: width 1s ease;
+    transition: width 1s ease;
+    -webkit-transition: width 1s ease;
+    background: #e8e8e8;
+    z-index: -1;
+    position: absolute
+}
+
+.votesCount {
+    font-size: 60%;
+    color: white;
+    text-align: end;
+    margin-right: 4px;
+}
+
+.percentage {
+    float: right;
+}
+
+.bar-group {
+    margin-top: 10px;
+    padding-bottom: 24px
+}
