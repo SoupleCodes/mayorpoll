@@ -47,7 +47,7 @@ let comments = fetch(root + '/comments')
             let votedWho = commentContent.split(" ")[0]
             let voteCount
             let usersVoted = []
-            if (users.includes(votedWho) && !(votes[votedWho] && (votes[votedWho].users).includes(comments.author.profile.username))) {
+            if (users.includes(votedWho) && votedWho !== comments.author.profile.username && !(votes[votedWho] && (votes[votedWho].users).includes(comments.author.profile.username))) {
                 if(votes[votedWho]) {
                     voteCount = votes[votedWho].count + 1
                     usersVoted = votes[votedWho].users
@@ -62,15 +62,39 @@ let comments = fetch(root + '/comments')
                 }
             }
         })
-
+        total=0;
+        totalvotes=0;
+        percents=[];
+        rounded=[];
+        
         for (const vote of Object.entries(votes)) {
-            makeBar(vote[0], vote[1].count, vote[1].users)
+            totalvotes+=vote[1].count;
         }
-
+        for (const vote of Object.entries(votes)) {
+            percents.push(100*vote[1].count/totalvotes);
+        }
+        for (p of percents) {
+            if (percents.indexOf(p) == (percents.length-1)) {
+                rounded.push(100-total);
+            } else {
+                if (p<1) {
+                    rounded.push(1);
+                    total+=1;
+                } else {
+                    rounded.push(Math.round(p));
+                    total+=Math.round(p);
+                }
+            }
+        }
+        let i=0; // shut the fuck up i know there's a million other ways to do this
+        for (const vote of Object.entries(votes)) {
+            makeBar(vote[0], vote[1].count, vote[1].users, rounded[i]);
+            i+=1;
+        }
     })
 
-function makeBar(voteName, voteCount, usersWhoVoted) {
-    console.log(voteName, voteCount, usersWhoVoted)
+function makeBar(voteName, voteCount, usersWhoVoted, percent) {
+    console.log(`${voteName} with ${voteCount} votes (${percent}%), voters: ${usersWhoVoted}`)
 
     const choice = document.createElement("div")
     choice.setAttribute("class", "choice")
@@ -80,7 +104,7 @@ function makeBar(voteName, voteCount, usersWhoVoted) {
     label.setAttribute("class", "label")
 
     const percentage = document.createElement("span")
-    percentage.textContent = `${Math.floor((voteCount / allVotesCount) * 100)*100 /100}%`
+    percentage.textContent = `${percent}%`
     percentage.setAttribute("class", "percentage")
 
     const barGroup = document.createElement("div")
@@ -107,7 +131,7 @@ function makeBar(voteName, voteCount, usersWhoVoted) {
 
     document.getElementById("choices").appendChild(choice)
     setTimeout(() => {
-        bar.style.width = `${(voteCount / allVotesCount) * 100}%`
+        bar.style.width = `${percent}%`
         fill.style.width = '100%'
-    }, 10);
+    }, 20);
 }
